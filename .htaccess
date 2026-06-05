@@ -1,0 +1,25 @@
+# Pretty URLs: /products -> products.html (only when the file isn't a real file)
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^([^.]+)$ $1.html [NC,L]
+
+# ----- Caching -----
+# HTML always revalidates so content updates show immediately.
+<FilesMatch "\.html$">
+    Header set Cache-Control "no-cache, must-revalidate"
+</FilesMatch>
+
+# CSS/JS are cache-busted with ?v= in the markup, so they can be cached hard.
+<FilesMatch "\.(css|js)$">
+    Header set Cache-Control "public, max-age=604800"
+</FilesMatch>
+
+# Images/fonts: cache for a long time (they rarely change).
+<FilesMatch "\.(jpg|jpeg|png|gif|webp|svg|ico|woff|woff2|ttf|eot)$">
+    Header set Cache-Control "public, max-age=2592000"
+</FilesMatch>
+
+# ----- Compression (smaller, faster downloads) -----
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/css text/javascript application/javascript application/json image/svg+xml
+</IfModule>

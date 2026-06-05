@@ -1,0 +1,290 @@
+/* =========================================================
+   product-detail.css — modern refresh for the individual
+   product pages (product1.html … product14.html).
+   Loaded AFTER style.css so these rules win by source order.
+   JS-driven classes (.expanded, .zoomed, .overlay, .big-img,
+   .next-arrow, .previous-arrow, .close-icon, .hidden/.visible)
+   are intentionally left untouched so image zoom + toggles work.
+   ========================================================= */
+
+:root {
+  --accent: #ff6f61;
+  --accent-dark: #e2503f;
+  --ink: #1c1d22;
+  --muted: #6b6f76;
+  --line: #ececef;
+  --page-bg: #f6f6f4;
+  --card-bg: #ffffff;
+}
+
+/* ---------- Page shell: kill the gray, drop the fixed height ---------- */
+#product-container,
+#product-container2 {
+  background: var(--page-bg) !important;
+  height: auto !important;
+  min-height: 100vh;
+  background-attachment: scroll !important;
+  padding-bottom: 70px;
+  padding-left: 6%;
+  padding-right: 6%;
+}
+
+/* headings use Poppins for a more modern, confident feel */
+.col-2 h1,
+.col-2.bg-color h1,
+.title,
+.col-4 h4 {
+  font-family: 'Poppins', 'Roboto', sans-serif;
+}
+
+/* ===========================================================
+   MAIN PRODUCT ROW (gallery + info)
+   =========================================================== */
+.small-container {
+  max-width: 1180px !important;
+  margin: 0 auto !important;
+}
+
+.small-container .row {
+  align-items: flex-start;
+  gap: 40px;
+}
+
+.col-2 {
+  flex: 1 1 360px !important;
+  margin-bottom: 0 !important;
+  padding: 0 !important;
+}
+
+/* ---------- Gallery ---------- */
+.col-2 img:first-of-type {
+  background: var(--card-bg);
+  border: 1px solid var(--line);
+  border-radius: 18px !important;
+  padding: 22px;
+  box-sizing: border-box;
+  box-shadow: 0 1px 2px rgba(16,18,22,0.04),
+              0 14px 40px rgba(16,18,22,0.07) !important;
+  margin-top: 0 !important;
+}
+
+/* keep the JS zoom/expand working — only constrain the in-page size.
+   #ProductImg.expanded (id+class) keeps higher specificity, so the
+   full-screen view is unaffected. */
+#ProductImg {
+  max-height: 440px;
+  object-fit: contain;
+}
+
+/* all gallery row variants (products with 4+ images use -row1 / -row2) */
+.small-img-row,
+.small-img-row1,
+.small-img-row2 {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 10px !important;
+  margin-top: 14px !important;
+  justify-content: flex-start !important;
+}
+.small-img-col {
+  flex: 0 0 calc(25% - 8px) !important;   /* 4 per row, the rest wrap below */
+  background: transparent;
+  border: none;                      /* removed the framed border look */
+  border-radius: 12px;
+  overflow: hidden;
+  padding: 0;
+  box-sizing: border-box;
+  box-shadow: 0 2px 10px rgba(16,18,22,0.10);
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.small-img-col:hover {
+  transform: translateY(-3px) !important;
+  box-shadow: 0 10px 22px rgba(16,18,22,0.16);
+}
+.small-img-col img {
+  border-radius: 12px;
+  height: 100px;                     /* a bit bigger than before */
+  width: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ---------- Info panel ---------- */
+.col-2.bg-color {
+  background: var(--card-bg) !important;
+  border: 1px solid var(--line);
+  border-radius: 18px !important;
+  box-shadow: 0 1px 2px rgba(16,18,22,0.04),
+              0 14px 40px rgba(16,18,22,0.07) !important;
+  bottom: auto !important;
+  margin-bottom: 0 !important;
+  padding: 34px 32px !important;
+  box-sizing: border-box;
+}
+
+.col-2 h1 {
+  font-size: clamp(28px, 3vw, 38px) !important;
+  font-weight: 800 !important;
+  color: var(--ink) !important;
+  letter-spacing: -0.8px;
+  line-height: 1.15;
+  margin: 0 0 6px !important;
+}
+
+/* small accent underline beneath the product title */
+.col-2.bg-color h1::after {
+  content: "";
+  display: block;
+  width: 56px;
+  height: 4px;
+  border-radius: 4px;
+  background: var(--accent);
+  margin: 16px 0 24px;
+}
+
+/* feature rows with check icons */
+.row12 {
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+.row12:first-of-type { border-top: 1px solid var(--line); }
+.row12 i {
+  color: var(--accent) !important;
+  font-size: 18px !important;
+  margin: 2px 0 0 0 !important;
+}
+.row12 h2 {
+  font-size: 16px !important;
+  line-height: 1.45 !important;
+  color: var(--ink) !important;
+  font-weight: 500 !important;
+}
+
+/* collapsible description */
+.col-2 h3 {
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  color: var(--ink) !important;
+  margin: 24px 0 0 !important;
+  padding: 6px 0;
+}
+.col-2 h3::after {
+  right: 4px !important;
+  color: var(--accent);
+}
+.col-2 p {
+  font-size: 15.5px !important;
+  line-height: 1.65 !important;
+  color: var(--muted) !important;
+  margin: 8px 0 0 !important;
+}
+
+/* CTA button */
+.button-container {
+  margin-top: 26px;
+}
+.dugme {
+  width: 100% !important;
+  padding: 16px 24px !important;
+  margin: 0 !important;
+  background: var(--accent) !important;
+  border-radius: 12px !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.2px;
+  box-shadow: 0 10px 22px rgba(255,111,97,0.30) !important;
+  transition: background-color .25s ease, box-shadow .25s ease, transform .15s ease !important;
+}
+.dugme:hover {
+  background: var(--accent-dark) !important;
+  box-shadow: 0 12px 26px rgba(255,111,97,0.42) !important;
+}
+
+/* ===========================================================
+   "Slični proizvodi" (related products)
+   =========================================================== */
+.title {
+  font-size: clamp(24px, 3vw, 32px) !important;
+  font-weight: 800 !important;
+  color: var(--ink) !important;
+  letter-spacing: -0.6px;
+  margin: 20px 0 34px !important;
+}
+
+.komsha {
+  gap: 24px;
+  justify-content: center !important;
+}
+.col-4 {
+  display: flex !important;
+  flex-direction: column;
+  flex: 1 1 200px !important;
+  max-width: 260px;
+  background: var(--card-bg) !important;
+  border: 1px solid var(--line) !important;
+  border-radius: 16px !important;
+  padding: 14px 14px 18px !important;
+  box-shadow: 0 1px 2px rgba(16,18,22,0.04),
+              0 8px 22px rgba(16,18,22,0.06) !important;
+  transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease !important;
+}
+.col-4:hover {
+  transform: translateY(-6px) !important;   /* replaces the jarring scale(1.1) */
+  border-color: rgba(255,111,97,0.45) !important;
+  box-shadow: 0 12px 30px rgba(255,111,97,0.16) !important;
+}
+.col-4 img {
+  width: 100% !important;
+  height: 170px !important;
+  object-fit: contain !important;
+  background: var(--card-bg);
+  border-radius: 10px;
+}
+/* centered name with reserved height so every card lines up identically */
+.col-4 h4 {
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  color: var(--ink) !important;
+  margin: 16px 6px 0 !important;
+  line-height: 1.3;
+  text-align: center !important;
+  min-height: 2.6em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===========================================================
+   RESPONSIVE
+   =========================================================== */
+@media (max-width: 860px) {
+  .small-container .row { flex-direction: column; gap: 28px; }
+  .col-2 { flex: 1 1 100% !important; width: 100%; }
+  #ProductImg { max-height: 360px; }
+}
+
+@media (max-width: 560px) {
+  #product-container,
+  #product-container2 {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+  .col-2.bg-color { padding: 26px 20px !important; }
+  .col-4 { flex: 1 1 140px !important; }
+  .col-4 img { height: 120px !important; }
+
+  /* thumbnails were tiny & unreadable at 4-across — make them a 2x2 grid */
+  .small-img-row {
+    flex-wrap: wrap;
+    gap: 10px !important;
+  }
+  .small-img-col {
+    flex-basis: calc(50% - 5px) !important;
+  }
+  .small-img-col img {
+    height: 120px !important;
+    object-fit: cover;
+  }
+}

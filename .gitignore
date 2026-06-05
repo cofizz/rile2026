@@ -1,0 +1,8 @@
+# Dependencies (project is a static site; these are not needed)
+node_modules/
+
+# OS / editor junk
+.DS_Store
+Thumbs.db
+*.log
+.vscode/

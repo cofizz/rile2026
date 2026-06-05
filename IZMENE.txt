@@ -1,0 +1,197 @@
+==========================================================================
+ PILATES REFORMER SHOP — PREGLED IZMENA / CHANGE LOG
+ Datum: 2026-06-05
+==========================================================================
+
+Ovaj dokument objašnjava STA JE BILO POGRESNO i STA JE PROMENJENO.
+Sve izmene su radjene tako da NE menjaju originalne velike fajlove vise
+nego sto je neophodno — dodati su novi CSS fajlovi koji se učitavaju
+POSLEDNJI i "ispravljaju" stare greske (override). Tako je rizik minimalan
+i lako je vratiti unazad (samo se obrise novi fajl / link).
+
+
+==========================================================================
+ NOVI FAJLOVI (dodati)
+==========================================================================
+
+1. css/products.css
+   - Moderan izgled STRANICE PROIZVODA (products.html).
+   - Ujednacene bele kartice, meke senke, hover efekat, lepa tipografija.
+   - Uklonjena siva pozadina iza slika proizvoda (sada bela).
+
+2. css/product-detail.css
+   - Moderan izgled POJEDINACNIH stranica proizvoda (product1–product14).
+   - Uklonjena siva (#cacaca) pozadina i fiksna visina kontejnera.
+   - Galerija, info panel, "Slicni proizvodi" — sve osvezeno.
+
+3. css/site-fixes.css   <-- NAJVAZNIJI
+   - Resava GLAVNI problem sa footer-om i responzivnoscu (objasnjeno dole).
+   - Dodaje pravi mobilni meni (hamburger).
+   - Ucitava se POSLEDNJI na svim stranicama, pa pobedjuje stare greske.
+
+4. IZMENE.txt (ovaj fajl)
+
+
+==========================================================================
+ STA JE BILO POGRESNO (i kako je popravljeno)
+==========================================================================
+
+[1] FOOTER JE "PLUTAO" NA SIVOJ POZADINI  (glavni problem)
+    Sta je bilo:
+      - body je imao HARDKODOVANU visinu:  body { height: 1920px }
+        (i ponovo 2000px / 2400px / 2500px na raznim ekranima).
+      - footer je guran nadole sa:  footer { position: relative; top: 300px }
+        (i top: 2000px, 2500px... po breakpoint-ima).
+      - body je imao sivu pozadinu:  background-color: rgb(202,202,202).
+      => Posto je visina bila "zamrznuta", a footer guran rukom, oko njega
+         se video sivi prazan prostor. Svaka promena sadrzaja je to lomila.
+    Popravka (css/site-fixes.css):
+      - body { height: auto; min-height: 100vh; }  -> raste sa sadrzajem.
+      - footer { position: static; top: auto; }     -> normalan tok, sam
+        sedne na dno sadrzaja. NISTA se ne hardkoduje.
+      - pozadina promenjena u svetlu (#f6f6f4), siva uklonjena.
+
+[2] SAJT NIJE BIO STVARNO RESPONZIVAN
+    Sta je bilo:
+      - ~12 media query-ja vezanih i za SIRINU i za VISINU ekrana
+        (npr. max-width:1536px AND max-height:742px). Zbog visine, samo
+        rotiranje telefona ili otvaranje tastature je premestalo elemente.
+      - Meni se na mobilnom samo "smanjivao" — nije imao hamburger.
+    Popravka:
+      - Cist, jedinstven mobilni meni (hamburger) do 1028px sirine.
+      - Klik na hamburger otvara panel koji klizi sa desne strane.
+      - Tipografija hero sekcije se skalira na malim ekranima.
+      - Footer se uredno slaze u kolonu na telefonu.
+
+[3] PARALLAX KOJI SE LOMI NA TELEFONIMA
+    Sta je bilo:  background-attachment: fixed  (trza / puca na iOS-u).
+    Popravka:     promenjeno u  scroll  za sve hero sekcije.
+
+[4] SIVA POZADINA IZA SLIKA PROIZVODA
+    Sta je bilo:  slike su imale sivi gradijent iza sebe.
+    Popravka:     pozadina je sada bela i stapa se sa karticom.
+
+[5] HTML GRESKE (nevalidan kod)
+    a) Dupli "class" atribut na ikonici mejla:
+         <i class="fa fa-envelope fa-3x" class="mail-icon">
+       -> spojeno u jedan:  class="fa fa-envelope fa-3x mail-icon"
+       (popravljeno na SVIM stranicama).
+    b) Pogresno zatvoren tag na index.html:
+         ...Procitajte o nama!<a>     (trebalo </a>)
+       -> popravljeno u </a>.
+    c) Duplirani id-jevi na index.html (dve forme su koristile
+       id="name", id="email", id="message"):
+       -> kontakt forma sada koristi: contact-name / contact-email /
+          contact-phone / contact-message  (id mora biti jedinstven).
+
+[6] JAVASCRIPT GRESKA NA SVIM STRANICAMA PROIZVODA
+    Sta je bilo:  script1.js je na kraju trazio elemente za izbor boje
+      (black-bar / white-bar) kojih nema -> bacao gresku u konzoli.
+    Popravka:     dodat "if" koji proverava da li elementi postoje pre
+      nego sto se zakaci dogadjaj. Vise nema greske.
+
+[7] KESIRANJE / BRZINA (.htaccess)
+    Sta je bilo:  no-cache, no-store na SVE (html/js/css) -> svaki put se
+      sve iznova skida, sajt sporiji.
+    Popravka:
+      - HTML: uvek se osvezava (da se izmene odmah vide).
+      - CSS/JS: kesiraju se 7 dana (vec imaju ?v= za "cache-busting").
+      - Slike/fontovi: kesiraju se 30 dana.
+      - Ukljucena gzip kompresija (manji, brzi download).
+
+
+==========================================================================
+ IZMENJENI POSTOJECI FAJLOVI
+==========================================================================
+  - index.html ........ link ka novim css; hamburger markup; popravljen
+                        </a>; jedinstveni id-jevi forme; spojen class.
+  - products.html ..... link ka products.css i site-fixes.css; hamburger;
+                        uvod "Nasa ponuda"; bolji fontovi.
+  - product1..14.html . link ka product-detail.css i site-fixes.css;
+                        hamburger markup; spojen class na ikonici.
+  - script1.js ........ zasticen kod za izbor boje (nema vise greske).
+  - .htaccess ......... pametno kesiranje + kompresija.
+
+
+==========================================================================
+ STO JOS TREBA PROVERITI / ODLUCITI (nije dirano bez tvoje potvrde)
+==========================================================================
+
+  * DOMEN SE NE POKLAPA:
+      - robots.txt / sitemap koriste:  pilatesreformershop.com
+      - og:url meta tagovi koriste:    pilatesshopsrbija.com
+    Treba izabrati JEDAN tacan domen (zbog Google-a / SEO). Reci koji je
+    pravi pa cu uskladiti.
+
+  * CENE NISU PRIKAZANE:
+      - Sva polja .cena / .cena3 su prazna i nista ih ne popunjava, pa se
+        cene nigde ne vide. Ako treba da se prikazuju — javi, dodajem.
+
+  * package.json:
+      - "start": "node server.js", ali server.js ne postoji. Sajt je
+        staticki (forme idu preko Formspree-a), pa ovo verovatno nije
+        potrebno. Mogu da ocistim ako zelis.
+
+  * MALI UX detalj:
+      - Na mobilnom, klik na link u meniju koji vodi na istu stranicu
+        (npr. #o-nama) ne zatvara automatski hamburger panel. Moze se
+        dodati kasnije ako smeta (treba mali JS).
+
+
+==========================================================================
+ DRUGI KRUG IZMENA (dodatne ispravke)
+==========================================================================
+
+[D1] DOMEN USKLADJEN:
+     - Svi og:url tagovi prebaceni na pilatesreformershop.com
+       (poklapaju se sa robots.txt / sitemap.xml).
+
+[D2] PRAZNE CENE UKLONJENE:
+     - Obrisani prazni .cena (products.html) i .cena3 (index.html) okviri.
+
+[D3] OBRISANI NEPOTREBNI FAJLOVI:
+     - package.json i package-lock.json (server.js nije postojao, sajt je
+       staticki). node_modules folder se i dalje moze obrisati rucno.
+
+[D4] MOBILNI MENI — IZGLED I FUNKCIJA:
+     - Redizajniran: uredna lista preko cele sirine, linije razdvajanja,
+       hover/aktivni efekat sa narandzastom trakom (umesto razbacanih stavki).
+     - POPRAVLJEN BUG: meni se nije video kada se skroluje preko slika
+       proizvoda. Uzrok: sadrzaj sa position:relative je prekrivao panel.
+       Resenje: navbar + panel dignuti na visok z-index (uvek su iznad
+       sadrzaja).
+
+[D5] NAVBAR "KAMUFLIRAN" NA PC-u (products strana):
+     - Dodat tamni "scrim" gradijent iza navbara da beli linkovi/logo budu
+       citljivi i preko svetlih delova hero slike.
+
+[D6] SITNE SLICICE NA TELEFONU (galerija na strani proizvoda):
+     - Umesto 4 sicusne slicice u redu, sada 2x2 mreza sa vecim slikama
+       (height 120px) — jasno se vidi sta je na slici.
+
+[D7] RAZMAK NA KARTICAMA (products strana):
+     - Naslovi kartica sada imaju rezervisanu visinu (min-height ~2 reda),
+       pa kartice sa naslovom u 1 vs 2 reda imaju isti, ujednacen razmak.
+
+
+==========================================================================
+ TRECI KRUG — REDIZAJN POCETNE (index.html)
+==========================================================================
+
+[H1] HERO (vrh pocetne):
+     - Moderniji izgled: "eyebrow" labela, krupniji Poppins naslov,
+       lepsi gradijent preko slike, CTA dugme kao narandzasti "pill".
+
+[H2] CELA DONJA POLOVINA POCETNE JE IZNOVA NAPRAVLJENA:
+     Nova datoteka: css/home.css  (ucitava se poslednja na index.html).
+     Nove, ciste sekcije sa "hx-" klasama (ne naslanjaju se na stari CSS):
+       * "Najtraženije" — moderne kartice, ujednacene, dugme na dnu.
+       * "O nama" — slika + tekst u dve kolone, sa akcentom.
+       * "Kontakt" — tamna sekcija sa belom formom (email/telefon/lokacija
+         + Instagram), moderna polja i dugme.
+       * Footer — nova, tamna footer sekcija u 3 kolone (brend + kontakt +
+         brzi linkovi) sa donjom trakom.
+     SACUVANO (da i dalje radi): dugmici .btn11/.btn12/.btn13 i .prdbtn
+     (JS navigacija), Formspree forma, #about-us i #contact sidra za meni.
+
+==========================================================================

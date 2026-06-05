@@ -1,0 +1,288 @@
+/* =========================================================
+   products.css — modern refresh for products.html only.
+   Loaded AFTER stylecopy.css so these rules win by source order.
+   Does not touch index.html or the product detail pages.
+   ========================================================= */
+
+:root {
+  --accent: #ff6f61;
+  --accent-dark: #e2503f;
+  --ink: #1c1d22;
+  --muted: #6b6f76;
+  --line: #ececef;
+  --page-bg: #f6f6f4;
+  --card-bg: #ffffff;
+}
+
+/* ---------- Page surface ---------- */
+body {
+  background-color: var(--page-bg);
+}
+
+/* headings use Poppins for a more modern, confident feel */
+.col1 h1,
+.grid-intro h2,
+.product-card1 h2 {
+  font-family: 'Poppins', 'Roboto', sans-serif;
+}
+
+/* ===========================================================
+   HERO
+   =========================================================== */
+#productscontainer {
+  /* keep the existing background image declared in stylecopy.css,
+     just refine the overlay for a richer, less flat look */
+  background-image:
+    linear-gradient(180deg, rgba(20,20,24,0.55) 0%, rgba(20,20,24,0.78) 100%),
+    url('imgs/background1.jpg') !important;
+  height: 88vh;
+  min-height: 560px;
+  display: flex;
+  flex-direction: column;
+}
+
+.col1 {
+  flex: 1;
+  justify-content: center;
+  gap: 0;
+}
+
+/* small eyebrow label injected before the title */
+.col1 h1::before {
+  content: "KATALOG PROIZVODA";
+  display: block;
+  font-size: 14px;
+  letter-spacing: 4px;
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 18px;
+  text-shadow: none;
+}
+
+.col1 h1 {
+  font-size: clamp(40px, 6vw, 72px);
+  font-weight: 800;
+  letter-spacing: -1.5px;
+  line-height: 1.05;
+  margin-top: 0;
+  text-shadow: 0 4px 30px rgba(0,0,0,0.35);
+}
+
+/* subtitle injected after the title */
+.col1 h1::after {
+  content: "Vrhunski Pilates reformeri i oprema, ručno izrađeni za studio i kućni trening.";
+  display: block;
+  font-size: clamp(15px, 1.6vw, 19px);
+  font-weight: 400;
+  letter-spacing: 0;
+  color: rgba(255,255,255,0.82);
+  max-width: 620px;
+  margin: 22px auto 0;
+  line-height: 1.55;
+  text-shadow: none;
+}
+
+/* ---------- Scroll-down button ---------- */
+.scroll-down {
+  position: relative;
+  bottom: auto;
+  left: auto;
+  transform: none;
+  margin: 40px auto 56px;
+  display: inline-flex;
+}
+
+.arrow-circle {
+  width: 56px;
+  height: 56px;
+  background-color: var(--accent);
+  box-shadow: 0 10px 30px rgba(255,111,97,0.45);
+  animation: prdBob 2s ease-in-out infinite;
+}
+.arrow-circle:hover {
+  background-color: var(--accent-dark);
+  transform: scale(1.06);
+}
+@keyframes prdBob {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(8px); }
+}
+
+/* ===========================================================
+   SECTION INTRO (markup added in products.html)
+   =========================================================== */
+.grid-intro {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 72px 24px 8px;
+  text-align: center;
+}
+.grid-intro h2 {
+  font-size: clamp(28px, 3.4vw, 40px);
+  font-weight: 800;
+  color: var(--ink);
+  letter-spacing: -1px;
+}
+.grid-intro .accent-bar {
+  width: 64px;
+  height: 4px;
+  background: var(--accent);
+  border-radius: 4px;
+  margin: 18px auto 0;
+}
+.grid-intro p {
+  margin: 20px auto 0;
+  max-width: 560px;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* ===========================================================
+   PRODUCT GRID + CARDS
+   =========================================================== */
+#product-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 24px 80px !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  grid-gap: 28px !important;
+}
+
+.product-link {
+  display: block;
+  height: 100%;
+}
+
+/* tame the legacy <br> spacers inside the cards */
+.product-card1 br { display: none; }
+
+.product-card1 {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 14px 14px 20px !important;
+  border-radius: 18px !important;
+  background: var(--card-bg) !important;
+  border: 1px solid var(--line);
+  box-shadow: 0 1px 2px rgba(16,18,22,0.04),
+              0 8px 24px rgba(16,18,22,0.06) !important;
+  transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease;
+}
+
+.product-card1:hover {
+  transform: translateY(-6px) !important;
+  border-color: rgba(255,111,97,0.45);
+  box-shadow: 0 10px 20px rgba(16,18,22,0.08),
+              0 24px 48px rgba(255,111,97,0.16) !important;
+}
+
+/* image wrapped in a uniform tile */
+.product-card1 img {
+  width: 100% !important;
+  max-width: none !important;
+  height: 240px !important;
+  object-fit: contain !important;
+  border-radius: 14px !important;
+  background: #ffffff;
+  padding: 16px;
+  box-sizing: border-box;
+  transition: transform .4s ease;
+}
+.product-card1:hover img {
+  transform: scale(1.04);
+}
+
+.product-card1 h2 {
+  margin: 18px 4px 0 !important;
+  font-size: 22px !important;
+  font-weight: 700 !important;
+  color: var(--ink) !important;
+  letter-spacing: -0.4px !important;
+  line-height: 1.25;
+  /* reserve room for up to 2 lines and TOP-align the text, so the name
+     always starts the same distance below the image — single- and
+     double-line titles then keep identical spacing across the grid */
+  min-height: 2.5em;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  text-align: center;
+}
+
+.reminder {
+  font-size: 12.5px !important;
+  color: var(--muted) !important;
+  -webkit-text-fill-color: var(--muted) !important;
+  line-height: 1.5;
+  margin: 10px 4px 0 !important;
+  padding: 0 8px !important;
+}
+
+/* footer of the card — pinned to the bottom for equal-height rows */
+.zoki {
+  margin-top: auto;
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 12px;
+}
+.cena {
+  font-size: 24px !important;
+  font-weight: 800 !important;
+  color: var(--ink) !important;
+}
+.cena:empty { display: none; }
+
+.product-card1 button {
+  width: 100% !important;
+  height: 48px !important;
+  margin: 0 !important;
+  background: var(--accent) !important;
+  border-radius: 12px !important;
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.2px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 8px 18px rgba(255,111,97,0.28);
+  transition: background-color .25s ease, box-shadow .25s ease, transform .15s ease;
+}
+.product-card1 button::after {
+  content: "\2192"; /* arrow */
+  font-size: 17px;
+  transition: transform .25s ease;
+}
+.product-card1 button:hover {
+  background: var(--accent-dark) !important;
+  box-shadow: 0 10px 24px rgba(255,111,97,0.4);
+}
+.product-card1:hover button::after {
+  transform: translateX(4px);
+}
+
+/* the two "tall" cards (Spring Set / Pilates Arc) align naturally now */
+.product-card1.produzena { height: 100%; }
+
+/* ===========================================================
+   RESPONSIVE — own clean breakpoints (loaded last, so they win)
+   =========================================================== */
+@media (max-width: 980px) {
+  #product-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+@media (max-width: 620px) {
+  #product-grid {
+    grid-template-columns: 1fr !important;
+    grid-gap: 20px !important;
+    padding: 28px 18px 64px !important;
+  }
+  .product-card1 img { height: 260px !important; }
+  .grid-intro { padding-top: 56px; }
+  #productscontainer { min-height: 520px; }
+}

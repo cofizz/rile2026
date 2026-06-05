@@ -1,0 +1,483 @@
+/* =========================================================
+   site-fixes.css — site-wide structural + responsive fixes.
+   Loaded LAST on every page so it wins by source order.
+
+   WHY THIS FILE EXISTS
+   The original style.css / stylecopy.css positioned the footer
+   with `position: relative; top: <hardcoded>px` and froze the page
+   with `body { height: 1920px }`, re-hardcoded at ~12 width+height
+   breakpoints. That made the footer float on a gray background and
+   broke whenever content length or viewport height changed.
+
+   This file restores natural document flow:
+   - body grows with content (no fixed height, no gray)
+   - footer is a normal static block at the end of the page
+     (`position: static` makes every `top: NNNpx` hack inert)
+   - one clean, width-only responsive system + a real mobile menu
+   ========================================================= */
+
+/* ---------- 1. Box model + no horizontal overflow ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+img { max-width: 100%; }
+html, body { overflow-x: hidden; }
+
+/* hide the scrollbar (keep scrolling working) */
+html { scrollbar-width: none; -ms-overflow-style: none; }
+html::-webkit-scrollbar,
+body::-webkit-scrollbar { width: 0; height: 0; display: none; }
+
+/* ---------- 2. Kill the frozen-height / gray-body disease ---------- */
+html { height: auto !important; }
+body {
+  height: auto !important;          /* beats every `body{height:NNNNpx}` hack */
+  min-height: 100vh;
+  background-color: #f6f6f4 !important;
+}
+
+/* ---------- 3. Footer back to natural flow ----------
+   position:static makes all the scattered `top:NNNNpx` values no-ops. */
+footer {
+  position: static !important;
+  top: auto !important;
+  margin-top: 0 !important;
+  width: 100%;
+}
+
+/* the product detail container no longer needs a hardcoded tall height */
+#product-container,
+#product-container2 {
+  height: auto !important;
+  min-height: auto !important;
+}
+
+/* ---------- 4. Remove parallax jank (broken on iOS/most mobiles) ---------- */
+#container,
+#productscontainer,
+#product-container,
+#product-container2 {
+  background-attachment: scroll !important;
+}
+
+/* =========================================================
+   5. RESPONSIVE NAVIGATION (CSS-only hamburger)
+   Markup added to every page:
+     <input type="checkbox" id="nav-toggle" class="nav-toggle">
+     <label for="nav-toggle" class="nav-burger">…3 spans…</label>
+   placed between the logo and the menu <nav>.
+   ========================================================= */
+.nav-toggle { display: none; }          /* checkbox hidden; label + :checked still work */
+.nav-burger { display: none; }          /* burger hidden on desktop */
+
+/* ---------- Cooler navbar: floating frosted "pill" bar ----------
+   Centered with left/right:0 + margin auto (NOT transform — a transform
+   would break the position:fixed mobile slide-in panel). */
+.navbar {
+  top: 16px !important;
+  left: 0 !important;
+  right: 0 !important;
+  margin: 0 auto !important;
+  width: calc(100% - 40px) !important;
+  max-width: 1240px !important;
+  padding: 9px 12px 9px 18px !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  transition: top .3s ease;
+}
+/* The frosted glass lives on ::before — NOT on .navbar itself — because
+   backdrop-filter on the navbar would trap the position:fixed mobile menu
+   panel inside the bar (same containing-block trap as transform). */
+.navbar::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(18, 18, 24, 0.34);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  backdrop-filter: blur(14px) saturate(140%);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
+  transition: background .3s ease, box-shadow .3s ease, border-color .3s ease;
+}
+/* solidifies once the page is scrolled (JS toggles .scrolled) */
+.navbar.scrolled { top: 10px !important; }
+.navbar.scrolled::before {
+  background: rgba(13, 13, 17, 0.82);
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.34);
+}
+
+.navbar .logo {
+  width: 52px !important;
+  height: 52px !important;
+  border-radius: 14px !important;
+}
+
+/* nav links become hover pills */
+.navbar nav ul li { margin-left: 6px !important; }
+.navbar nav ul li:nth-child(4) { margin-right: 6px !important; }
+.navbar nav ul li a {
+  padding: 9px 16px !important;
+  border-radius: 10px;
+  font-size: 15px !important;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35);
+  transition: background .2s ease, color .2s ease;
+}
+.navbar nav ul li a::after { display: none !important; }   /* drop the old underline animation */
+.navbar nav ul li a:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff !important;
+  text-shadow: none;
+}
+
+/* envelope icon -> coral CTA button */
+.navbar .mail-a {
+  margin: 0 !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #ff7a6d 0%, #ff6f61 55%, #e2503f 100%);
+  box-shadow: 0 8px 20px rgba(255, 111, 97, 0.40);
+  transition: transform .2s ease, box-shadow .25s ease, filter .2s ease;
+}
+.navbar .mail-a i {
+  font-size: 20px !important;
+  color: #fff !important;
+  width: auto !important;        /* base .mail-icon forces 60x60 -> reset */
+  height: auto !important;
+  margin: 0 !important;
+  line-height: 1 !important;
+}
+.navbar .mail-a:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 26px rgba(255, 111, 97, 0.55);
+  filter: brightness(1.05);
+}
+.navbar .mail-a i:hover { color: #fff !important; text-shadow: none !important; }
+
+@media (max-width: 1028px) {
+  /* Keep the whole navbar + its slide-in panel above ALL page content.
+     (Product content uses position:relative, which was hiding the menu when
+     scrolled down — this guarantees the menu always wins the stacking order.) */
+  .navbar {
+    z-index: 9000 !important;
+    top: 12px !important;
+    width: calc(100% - 24px) !important;
+    padding: 7px 8px 7px 14px !important;
+  }
+  .navbar.scrolled { top: 8px !important; }
+
+  .nav-burger {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+    width: 46px;
+    height: 46px;
+    margin-left: auto;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 9002;
+  }
+  .nav-burger span {
+    display: block;
+    width: 26px;
+    height: 3px;
+    border-radius: 3px;
+    background: #fff;
+    transition: transform .3s ease, opacity .25s ease;
+  }
+
+  /* the menu becomes a compact floating dropdown card under the navbar */
+  .navbar nav {
+    display: block !important;
+    position: fixed;
+    top: 68px;
+    right: 12px;
+    width: min(74vw, 280px);
+    max-height: calc(100vh - 88px);
+    overflow-y: auto;
+    flex: none;
+    text-align: left;
+    background: rgba(20, 20, 26, 0.92);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    backdrop-filter: blur(18px) saturate(140%);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    border-radius: 16px;
+    box-shadow: 0 24px 56px rgba(0, 0, 0, 0.5);
+    padding: 8px !important;
+    margin: 0 !important;
+    z-index: 9001;
+    /* closed state */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-12px) scale(.97);
+    transform-origin: top right;
+    transition: opacity .22s ease, transform .24s cubic-bezier(.2,.8,.2,1), visibility .24s;
+  }
+  .nav-toggle:checked ~ nav {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+  }
+
+  .navbar nav ul {
+    display: block !important;
+    height: auto !important;
+    list-style: none;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  .navbar nav ul li {
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  .navbar nav ul li:nth-child(4) { margin-right: 0 !important; }
+
+  .navbar nav ul li a {
+    display: flex !important;
+    align-items: center;
+    gap: 13px;
+    padding: 13px 14px !important;
+    border-radius: 10px;
+    font-size: 15px !important;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    color: #fff !important;
+    text-shadow: none;
+    transition: background .2s ease, color .2s ease;
+  }
+  /* an icon before each item (FontAwesome 4.7 is already loaded) */
+  .navbar nav ul li a::after { display: none !important; }   /* kill desktop underline animation */
+  .navbar nav ul li a::before {
+    font-family: FontAwesome;
+    font-weight: normal;
+    width: 20px;
+    text-align: center;
+    font-size: 15px;
+    color: #ff8b7f;
+    transition: color .2s ease;
+  }
+  .navbar nav ul li:nth-child(1) a::before { content: "\f015"; }  /* home */
+  .navbar nav ul li:nth-child(2) a::before { content: "\f07a"; }  /* cart */
+  .navbar nav ul li:nth-child(3) a::before { content: "\f05a"; }  /* info */
+  .navbar nav ul li:nth-child(4) a::before { content: "\f0e0"; }  /* envelope */
+
+  .navbar nav ul li a:hover,
+  .navbar nav ul li a:active {
+    background: rgba(255, 111, 97, 0.16);
+    color: #fff !important;
+  }
+  .navbar nav ul li a:hover::before { color: #ff6f61; }
+
+  /* small contact line at the bottom of the card */
+  .navbar nav ul::after {
+    content: "Pozovite: +381 65 9970 599";
+    display: block;
+    margin: 6px 6px 2px;
+    padding: 13px 8px 5px;
+    border-top: 1px solid rgba(255, 255, 255, 0.09);
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 12.5px;
+    letter-spacing: 0.3px;
+  }
+
+  /* burger morphs into an X when open */
+  .nav-toggle:checked ~ .nav-burger span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+  .nav-toggle:checked ~ .nav-burger span:nth-child(2) { opacity: 0; }
+  .nav-toggle:checked ~ .nav-burger span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+
+  /* the standalone mail icon is redundant on mobile (contact is in the menu/footer) */
+  .navbar .mail-a { display: none; }
+}
+
+/* ---------- 6. Hero typography that scales ---------- */
+@media (max-width: 600px) {
+  .col h1 { font-size: 40px !important; }
+  .col p  { font-size: 18px !important; line-height: 1.4 !important; }
+  .button { margin-top: 28px !important; }
+}
+
+/* ---------- 7. Footer stacks cleanly on small screens ---------- */
+@media (max-width: 720px) {
+  .container2 {
+    flex-direction: column;
+    gap: 28px;
+    align-items: flex-start;
+    text-align: left;
+  }
+  .footer-left,
+  .footer-right { padding: 0 !important; margin: 0 !important; }
+}
+
+/* =========================================================
+   8. HOME HERO (index.html #container) — modernised
+   ========================================================= */
+#container {
+  background-image:
+    linear-gradient(180deg, rgba(12,12,16,0.45) 0%, rgba(12,12,16,0.62) 55%, rgba(12,12,16,0.80) 100%),
+    url('imgs/background2.jpg') !important;
+  background-position: center !important;
+}
+
+/* eyebrow label above the title */
+#container .col h1::before {
+  content: "PREMIUM PILATES OPREMA";
+  display: block;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 5px;
+  color: #ff8b7f;
+  margin-bottom: 20px;
+  text-shadow: none;
+}
+
+#container .col h1 {
+  font-family: 'Poppins', 'Roboto', sans-serif;
+  font-size: clamp(42px, 7vw, 88px) !important;
+  font-weight: 800 !important;
+  letter-spacing: -2px;
+  line-height: 1.02;
+  text-shadow: 0 6px 40px rgba(0,0,0,0.45);
+}
+
+#container .col p {
+  font-family: 'Poppins', 'Roboto', sans-serif;
+  font-size: clamp(16px, 2vw, 22px) !important;
+  font-weight: 400 !important;
+  line-height: 1.5 !important;
+  letter-spacing: 0.3px;
+  color: rgba(255,255,255,0.88) !important;
+  margin-top: 22px !important;
+  max-width: 600px;
+}
+
+/* CTA → coral pill that pops */
+#container .button {
+  width: auto !important;
+  color: #fff !important;
+  background: linear-gradient(135deg, #ff7a6d 0%, #ff6f61 50%, #e2503f 100%) !important;
+  padding: 16px 38px !important;
+  border-radius: 50px !important;
+  font-family: 'Poppins', 'Roboto', sans-serif;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.4px;
+  box-shadow: 0 12px 30px rgba(255,111,97,0.42) !important;
+  transition: transform .2s ease, box-shadow .25s ease, filter .25s ease !important;
+}
+#container .button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 38px rgba(255,111,97,0.55) !important;
+  filter: brightness(1.05);
+}
+
+/* =========================================================
+   9. POP-UP CONTACT MODAL (#myModal) — modernised, all pages
+   ========================================================= */
+.modal {
+  background-color: rgba(10, 10, 14, 0.55) !important;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+/* kept absolute-centered (JS toggles display:block, not flex) */
+.modal-content {
+  width: calc(100% - 36px) !important;
+  max-width: 430px !important;
+  padding: 34px 30px 30px !important;
+  border-radius: 20px !important;
+  background: #fff !important;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45) !important;
+  animation: hxModalIn .3s cubic-bezier(.2, .8, .2, 1);
+}
+@keyframes hxModalIn {
+  from { opacity: 0; transform: translate(-50%, -46%) scale(.97); }
+  to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+.contact-form h2 {
+  font-family: 'Poppins', 'Roboto', sans-serif;
+  font-size: 24px !important;
+  font-weight: 700 !important;
+  color: #1c1d22;
+  margin: 0 0 22px !important;
+  text-align: center;
+}
+
+/* close button → circular */
+.modal-content .close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  float: none !important;
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #f1f1f1;
+  color: #6b6f76 !important;
+  font-size: 22px !important;
+  line-height: 1;
+  transition: background .2s ease, color .2s ease, transform .2s ease;
+}
+.modal-content .close:hover {
+  background: #ff6f61;
+  color: #fff !important;
+  transform: rotate(90deg);
+}
+
+/* inputs */
+.modal-content .form-group { margin-bottom: 14px !important; }
+.modal-content input[type="text"],
+.modal-content input[type="email"],
+.modal-content textarea {
+  width: 100% !important;
+  padding: 14px 16px !important;
+  border: 1px solid #e8e8ea !important;
+  border-radius: 12px !important;
+  background: #fafafa !important;
+  font-size: 15px !important;
+  color: #1c1d22 !important;
+  transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+}
+.modal-content input::placeholder,
+.modal-content textarea::placeholder { color: #9a9ea4; }
+.modal-content input:focus,
+.modal-content textarea:focus {
+  outline: none !important;
+  background: #fff !important;
+  border-color: #ff6f61 !important;
+  box-shadow: 0 0 0 4px rgba(255, 111, 97, 0.12) !important;
+}
+
+.modal-content .phone-number {
+  color: #6b6f76 !important;
+  font-size: 14px !important;
+  margin: 6px 0 18px !important;
+}
+
+.modal-content .submit-btn {
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 15px !important;
+  border-radius: 12px !important;
+  background: #ff6f61 !important;
+  font-family: 'Poppins', 'Roboto', sans-serif;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  box-shadow: 0 10px 22px rgba(255, 111, 97, 0.3) !important;
+}
+.modal-content .submit-btn:hover {
+  background: #e2503f !important;
+  box-shadow: 0 12px 26px rgba(255, 111, 97, 0.42) !important;
+}
