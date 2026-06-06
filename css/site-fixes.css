@@ -481,3 +481,50 @@ footer {
   background: #e2503f !important;
   box-shadow: 0 12px 26px rgba(255, 111, 97, 0.42) !important;
 }
+
+
+/* =========================================================
+   11. Redesigned fixed social tab (left) + WhatsApp
+   ========================================================= */
+.social-icons {
+  padding: 9px 7px !important;
+  gap: 9px;
+  background: #ffffff !important;
+  border-radius: 0 16px 16px 0 !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.16) !important;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-left: none;
+  z-index: 900 !important;
+}
+.social-icons .social-icon {
+  margin: 0 !important;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: #1c1d22 !important;
+  background: #f3f3f2;
+  transition: transform .2s ease, background .25s ease, color .25s ease, box-shadow .25s ease;
+}
+.social-icons .social-icon i { font-size: 19px !important; }
+.social-icons .social-icon:hover {
+  transform: translateX(2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+}
+.social-icons a[href*="instagram"]:hover {
+  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+  color: #fff !important;
+}
+.social-icons a[href*="wa.me"]:hover {
+  background: #25D366;
+  color: #fff !important;
+}
+/* on phones the footer holds the socials; hide the fixed tab to avoid overlap */
+@media (max-width: 600px) {
+  .social-icons { display: none !important; }
+}
+
+/* footer + contact WhatsApp share the existing styles; space the contact links */
+.hx-ig + .hx-ig { margin-left: 18px; }
