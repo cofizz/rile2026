@@ -82,14 +82,16 @@ body {
   text-shadow: none;
 }
 
-/* ---------- Scroll-down button ---------- */
+/* ---------- Scroll-down button ----------
+   Locked into normal flow so the height-keyed base rules
+   (margin-bottom: -140px, etc.) can no longer move it per device. */
 .scroll-down {
-  position: relative;
-  bottom: auto;
-  left: auto;
-  transform: none;
-  margin: 40px auto 56px;
-  display: inline-flex;
+  position: relative !important;
+  bottom: auto !important;
+  left: auto !important;
+  transform: none !important;
+  margin: 40px auto 48px !important;
+  display: inline-flex !important;
 }
 
 .arrow-circle {
