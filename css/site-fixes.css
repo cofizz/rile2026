@@ -528,3 +528,6 @@ footer {
 
 /* footer + contact WhatsApp share the existing styles; space the contact links */
 .hx-ig + .hx-ig { margin-left: 18px; }
+
+/* remove underline on social icons */
+.social-icons a { text-decoration: none !important; }
