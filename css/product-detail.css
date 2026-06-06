@@ -214,14 +214,16 @@
 }
 
 .komsha {
-  gap: 24px;
-  justify-content: center !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 24px !important;
+  justify-content: center !important;   /* beats base .row space-between + grid */
 }
 .col-4 {
   display: flex !important;
   flex-direction: column;
-  flex: 1 1 200px !important;
-  max-width: 260px;
+  flex: 0 1 230px !important;            /* no grow -> cards stay centered as a group */
+  max-width: 240px !important;
   background: var(--card-bg) !important;
   border: 1px solid var(--line) !important;
   border-radius: 16px !important;
@@ -272,7 +274,7 @@
     padding-right: 18px;
   }
   .col-2.bg-color { padding: 26px 20px !important; }
-  .col-4 { flex: 1 1 140px !important; }
+  .col-4 { flex: 0 1 150px !important; max-width: 46% !important; }
   .col-4 img { height: 120px !important; }
 
   /* thumbnails were tiny & unreadable at 4-across — make them a 2x2 grid */
