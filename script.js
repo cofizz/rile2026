@@ -237,4 +237,32 @@ toggleTriggers.forEach(function(trigger) {
     });
 });
 
+/* ===== Validacija formi sa porukama na srpskom =====
+   Primenjuje se na sve Formspree forme (modal + kontakt). */
+document.addEventListener("DOMContentLoaded", function () {
+    var rules = {
+        name:    { re: /^[A-Za-zČčĆćŽžŠšĐđ][A-Za-zČčĆćŽžŠšĐđ \-']{1,39}$/, msg: "Unesite ispravno ime (samo slova, najmanje 2 karaktera)." },
+        surname: { re: /^[A-Za-zČčĆćŽžŠšĐđ][A-Za-zČčĆćŽžŠšĐđ \-']{1,39}$/, msg: "Unesite ispravno prezime (samo slova, najmanje 2 karaktera)." },
+        email:   { re: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/, msg: "Unesite ispravnu email adresu (primer: ime@primer.com)." },
+        phone:   { re: /^(\+381\s?|0)6\d([\s\/-]?\d){6,8}$/, msg: "Unesite ispravan broj telefona (primer: 065 1234567)." }
+    };
+
+    function check(field) {
+        var val = field.value.trim();
+        if (val === "") {
+            field.setCustomValidity(field.required ? "Ovo polje je obavezno." : "");
+            return;
+        }
+        var rule = rules[field.name];
+        field.setCustomValidity(rule && !rule.re.test(val) ? rule.msg : "");
+    }
+
+    document.querySelectorAll('form[action*="formspree"]').forEach(function (form) {
+        form.querySelectorAll('input[name], textarea[name]').forEach(function (field) {
+            field.addEventListener("input", function () { check(field); });
+            field.addEventListener("invalid", function () { check(field); });
+        });
+    });
+});
+
    
