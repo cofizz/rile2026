@@ -263,3 +263,25 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+
+
+/* ===== Colour swatches: click changes the main product image ===== */
+document.addEventListener("DOMContentLoaded", function () {
+    var swatches = document.querySelectorAll('.swatch');
+    var mainImg = document.getElementById('ProductImg');
+    if (!swatches.length || !mainImg) return;
+    swatches.forEach(function (sw) {
+        sw.addEventListener('click', function () {
+            var src = sw.getAttribute('data-img');
+            if (!src) return;
+            mainImg.style.transition = 'opacity .2s ease';
+            mainImg.style.opacity = '0';
+            setTimeout(function () {
+                mainImg.src = src;
+                mainImg.style.opacity = '1';
+            }, 180);
+            swatches.forEach(function (s) { s.classList.remove('is-active'); });
+            sw.classList.add('is-active');
+        });
+    });
+});

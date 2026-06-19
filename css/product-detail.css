@@ -290,3 +290,36 @@
     object-fit: cover;
   }
 }
+
+
+/* ===========================================================
+   Colour swatches ("Dostupne boje") — click to change main image
+   =========================================================== */
+.boja {
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  color: var(--ink) !important;
+  margin: 4px 0 12px !important;
+}
+.color-swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 0 0 22px;
+}
+.swatch {
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border-radius: 50%;
+  background: var(--sw);
+  border: 2px solid #e2e2e4;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+  transition: transform .15s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.swatch:hover { transform: scale(1.12); }
+.swatch.is-active {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(255,111,97,0.25);
+}
