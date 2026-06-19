@@ -288,3 +288,8 @@ body {
   .grid-intro { padding-top: 56px; }
   #productscontainer { min-height: 520px; }
 }
+
+/* hover: crossfade to second product image */
+.product-card1 .ph { position: relative; display: block; }
+.product-card1 .ph-hover { position: absolute; left: 0; top: 0; opacity: 0; transition: opacity .5s ease; }
+.product-card1:hover .ph-hover { opacity: 1; }
