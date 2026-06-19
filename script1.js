@@ -73,6 +73,7 @@ function closeModal() {
             ProductImg.classList.toggle('expanded');
             if (ProductImg.classList.contains('expanded')) {
                 document.body.appendChild(overlay);
+                document.body.classList.add('zoom-open');
                 addNextArrow();
                 addPreviousArrow();
                 closeIcon.style.display = 'block'; // Show close icon only when expanded
@@ -191,6 +192,7 @@ function swapImages(index) {
         ProductImg.style.width = ''; // This will remove the inline style, allowing the CSS to take effect
         ProductImg.style.height = ''; // This will remove the inline style, allowing the CSS to take effect
         
+        document.body.classList.remove('zoom-open');
         ProductImg.classList.remove('expanded','zoomed');
         removeNextArrow();
         removePreviousArrow();

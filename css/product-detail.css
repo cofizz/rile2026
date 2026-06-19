@@ -323,3 +323,8 @@
   border-color: var(--accent);
   box-shadow: 0 0 0 3px rgba(255,111,97,0.25);
 }
+
+/* hide page chrome while a product photo is zoomed open (mobile + desktop) */
+body.zoom-open .navbar,
+body.zoom-open .social-icons,
+body.zoom-open #scrollToTopBtn { display: none !important; }
