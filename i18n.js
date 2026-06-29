@@ -162,9 +162,10 @@
       apply(current);
       label();
     });
-    // place it just before the burger/menu so it sits on the right
-    var burger = nav.querySelector(".nav-burger");
-    if (burger) nav.insertBefore(btn, burger); else nav.appendChild(btn);
+    // place it just before the mail CTA so on desktop it groups on the
+    // right next to the nav + envelope (CSS handles mobile ordering)
+    var mail = nav.querySelector(".mail-a");
+    if (mail) nav.insertBefore(btn, mail); else nav.appendChild(btn);
     label();
   }
 

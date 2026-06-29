@@ -288,6 +288,11 @@ footer {
     font-size: 12.5px;
     letter-spacing: 0.3px;
   }
+  body.lang-en .navbar nav ul::after { content: "Call: +381 65 9970 599"; }
+
+  /* keep burger on the far right; toggle sits to its left */
+  .lang-toggle { order: 1; margin: 0 10px 0 0; }
+  .nav-burger { order: 2; }
 
   /* burger morphs into an X when open */
   .nav-toggle:checked ~ .nav-burger span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
@@ -329,8 +334,7 @@ footer {
 
 /* ---------- Language (SR/EN) toggle button ---------- */
 .lang-toggle {
-  margin-left: auto;
-  margin-right: 14px;
+  margin: 0 12px 0 0;
   min-width: 44px;
   height: 36px;
   padding: 0 12px;
@@ -354,7 +358,6 @@ footer {
 .navbar.scrolled .lang-toggle:hover { color: #fff; }
 
 /* EN translations for CSS-generated text */
-body.lang-en .navbar nav ul::after { content: "Call: +381 65 9970 599"; }
 body.lang-en #container .col h1::before { content: "PREMIUM PILATES EQUIPMENT"; }
 
 /* eyebrow label above the title */
