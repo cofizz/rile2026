@@ -286,4 +286,16 @@ document.addEventListener("DOMContentLoaded", function () {
             sw.classList.add('is-active');
         });
     });
+
+    // keep swatches in sync when the user changes the picture via a thumbnail:
+    // activate the swatch whose colour photo matches the clicked thumbnail.
+    function baseName(src) { return (src || '').split('/').pop(); }
+    document.querySelectorAll('.small-img').forEach(function (thumb) {
+        thumb.addEventListener('click', function () {
+            var tBase = baseName(thumb.getAttribute('src'));
+            swatches.forEach(function (s) {
+                s.classList.toggle('is-active', baseName(s.getAttribute('data-img')) === tBase);
+            });
+        });
+    });
 });
