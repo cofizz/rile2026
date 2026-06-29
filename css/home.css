@@ -118,7 +118,8 @@
   margin: 18px 4px 0;
 }
 .hx-btn {
-  margin-top: 16px !important;
+  margin-top: auto !important;   /* pin to card bottom so all cards align
+                                    whether or not they have a swatch row */
   width: 100% !important;
   height: 50px !important;
   border: none !important;
