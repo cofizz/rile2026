@@ -272,16 +272,31 @@ document.addEventListener("DOMContentLoaded", function () {
     var swatches = document.querySelectorAll('.swatch');
     var mainImg = document.getElementById('ProductImg');
     if (!swatches.length || !mainImg) return;
+    function baseName(src) { return (src || '').split('/').pop(); }
+
     swatches.forEach(function (sw) {
         sw.addEventListener('click', function () {
-            var src = sw.getAttribute('data-img');
-            if (!src) return;
+            var target = baseName(sw.getAttribute('data-img'));
+            if (!target || baseName(mainImg.src) === target) return; // already featured
+
+            // find the thumbnail currently holding this colour so we can SWAP
+            // (the old featured colour takes that thumbnail's slot) rather than
+            // replace — keeps every colour visible exactly once.
+            var match = null;
+            document.querySelectorAll('.small-img').forEach(function (t) {
+                if (baseName(t.getAttribute('src')) === target) match = t;
+            });
+
             mainImg.style.transition = 'opacity .2s ease';
             mainImg.style.opacity = '0';
+            var prev = mainImg.src;
+            var next = match ? match.src : sw.getAttribute('data-img');
             setTimeout(function () {
-                mainImg.src = src;
+                mainImg.src = next;
+                if (match) match.src = prev;   // swap old featured into the thumbnail
                 mainImg.style.opacity = '1';
             }, 180);
+
             swatches.forEach(function (s) { s.classList.remove('is-active'); });
             sw.classList.add('is-active');
         });
@@ -289,7 +304,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // keep swatches in sync when the user changes the picture via a thumbnail:
     // activate the swatch whose colour photo matches the clicked thumbnail.
-    function baseName(src) { return (src || '').split('/').pop(); }
     document.querySelectorAll('.small-img').forEach(function (thumb) {
         thumb.addEventListener('click', function () {
             var tBase = baseName(thumb.getAttribute('src'));
