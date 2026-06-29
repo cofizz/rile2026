@@ -354,7 +354,7 @@ footer {
   border-color: #ff6f61;
   color: #fff;
 }
-.navbar.scrolled .lang-toggle { color: #1c1d22; border-color: rgba(255,111,97,0.7); }
+.navbar.scrolled .lang-toggle { color: #fff; border-color: rgba(255,111,97,0.7); }
 .navbar.scrolled .lang-toggle:hover { color: #fff; }
 
 /* EN translations for CSS-generated text */
