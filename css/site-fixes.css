@@ -327,6 +327,36 @@ footer {
   background-position: center !important;
 }
 
+/* ---------- Language (SR/EN) toggle button ---------- */
+.lang-toggle {
+  margin-left: auto;
+  margin-right: 14px;
+  min-width: 44px;
+  height: 36px;
+  padding: 0 12px;
+  border: 1.5px solid rgba(255, 111, 97, 0.55);
+  border-radius: 999px;
+  background: transparent;
+  color: #fff;
+  font-family: 'Roboto', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: background-color .2s ease, color .2s ease, border-color .2s ease;
+}
+.lang-toggle:hover {
+  background: #ff6f61;
+  border-color: #ff6f61;
+  color: #fff;
+}
+.navbar.scrolled .lang-toggle { color: #1c1d22; border-color: rgba(255,111,97,0.7); }
+.navbar.scrolled .lang-toggle:hover { color: #fff; }
+
+/* EN translations for CSS-generated text */
+body.lang-en .navbar nav ul::after { content: "Call: +381 65 9970 599"; }
+body.lang-en #container .col h1::before { content: "PREMIUM PILATES EQUIPMENT"; }
+
 /* eyebrow label above the title */
 #container .col h1::before {
   content: "PREMIUM PILATES OPREMA";

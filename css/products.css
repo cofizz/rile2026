@@ -313,3 +313,7 @@ body {
 .product-card1 .card-swatch::after { content: none !important; display: none !important; }
 .product-card1 .card-swatch:hover { transform: scale(1.18) !important; background: var(--sw) !important; box-shadow: 0 2px 8px rgba(0,0,0,0.2) !important; }
 .product-card1 .card-swatch.is-active { border-color: var(--accent) !important; box-shadow: 0 0 0 2px rgba(255,111,97,0.3) !important; }
+
+/* EN translations for CSS-generated hero text */
+body.lang-en .col1 h1::before { content: "PRODUCT CATALOG"; }
+body.lang-en .col1 h1::after  { content: "Premium Pilates reformers and equipment, handcrafted for studio and home training."; }
