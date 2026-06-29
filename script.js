@@ -137,8 +137,9 @@ document.addEventListener("DOMContentLoaded", function () {
 /* ===== Card colour swatches: click switches the card image (no nav) ===== */
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll('.card-swatches').forEach(function (group) {
-        var card = group.closest('.product-card1');
-        var img = card ? card.querySelector('.ph img') : null;
+        var card = group.closest('.product-card1, .hx-card');
+        var media = card ? card.querySelector('.ph, .hx-media') : null;
+        var img = media ? media.querySelector('img') : null;   // first (main) image
         if (!img) return;
         group.querySelectorAll('.card-swatch').forEach(function (sw) {
             sw.addEventListener('click', function (e) {
@@ -146,6 +147,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 e.stopPropagation();
                 var src = sw.getAttribute('data-img');
                 if (!src) return;
+                // once a colour is picked, stop the hover image from covering it
+                if (card) card.classList.add('color-chosen');
                 img.style.transition = 'opacity .2s ease';
                 img.style.opacity = '0';
                 setTimeout(function () { img.src = src; img.style.opacity = '1'; }, 150);

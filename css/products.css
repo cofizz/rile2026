@@ -293,6 +293,9 @@ body {
 .product-card1 .ph { position: relative; display: block; }
 .product-card1 .ph-hover { position: absolute; left: 0; top: 0; opacity: 0; transition: opacity .5s ease; }
 .product-card1:hover .ph-hover { opacity: 1; }
+/* after a colour is chosen via the swatches, the hover preview must not
+   cover the selected colour */
+.product-card1.color-chosen:hover .ph-hover { opacity: 0; }
 
 /* clickable colour swatches on the product cards
    (high specificity + !important to beat .product-card1 button styles) */
