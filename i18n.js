@@ -155,6 +155,11 @@
     wrap.setAttribute("role", "group");
     wrap.setAttribute("aria-label", "Jezik / Language");
 
+    var thumb = document.createElement("span");
+    thumb.className = "lang-thumb";
+    thumb.setAttribute("aria-hidden", "true");
+    wrap.appendChild(thumb);
+
     var segs = {};
     ["sr", "en"].forEach(function (lang) {
       var seg = document.createElement("button");
@@ -174,6 +179,7 @@
     });
 
     function sync() {
+      wrap.classList.toggle("is-en", current === "en");
       segs.sr.classList.toggle("is-active", current === "sr");
       segs.en.classList.toggle("is-active", current === "en");
     }

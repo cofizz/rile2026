@@ -290,9 +290,10 @@ footer {
   }
   body.lang-en .navbar nav ul::after { content: "Call: +381 65 9970 599"; }
 
-  /* cluster toggle + burger to the far right, logo alone on the left */
-  .lang-toggle { order: 1; margin: 0 10px 0 auto; }
-  .nav-burger { order: 2; }
+  /* logo alone on the left pushes toggle + burger as a group to the right */
+  .navbar > a:first-child { margin-right: auto; }
+  .lang-toggle { order: 2; margin: 0 10px 0 0; }
+  .nav-burger { order: 3; margin-left: 0; }
 
   /* burger morphs into an X when open */
   .nav-toggle:checked ~ .nav-burger span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
@@ -334,6 +335,7 @@ footer {
 
 /* ---------- Language (SR/EN) segmented toggle ---------- */
 .lang-toggle {
+  position: relative;
   display: inline-flex;
   align-items: center;
   margin: 0 12px 0 0;
@@ -342,29 +344,40 @@ footer {
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.06);
 }
+/* sliding highlight that animates between the two segments */
+.lang-toggle .lang-thumb {
+  position: absolute;
+  top: 3px;
+  bottom: 3px;
+  left: 3px;
+  width: calc(50% - 3px);
+  border-radius: 999px;
+  background: #ff6f61;
+  box-shadow: 0 2px 8px rgba(255, 111, 97, 0.4);
+  transition: transform .26s cubic-bezier(.2, .8, .2, 1);
+  z-index: 0;
+}
+.lang-toggle.is-en .lang-thumb { transform: translateX(100%); }
 .lang-toggle .lang-seg {
+  position: relative;
+  z-index: 1;
   min-width: 34px;
   height: 28px;
   padding: 0 10px;
   border: none;
   border-radius: 999px;
   background: transparent;
-  color: #fff;
+  color: rgba(255, 255, 255, 0.7);
   font-family: 'Roboto', sans-serif;
   font-size: 12.5px;
   font-weight: 700;
   letter-spacing: 1px;
   cursor: pointer;
   line-height: 1;
-  transition: background-color .2s ease, color .2s ease;
+  transition: color .2s ease;
 }
-.lang-toggle .lang-seg:hover { color: #ff8b7f; }
-.lang-toggle .lang-seg.is-active {
-  background: #ff6f61;
-  color: #fff;
-  box-shadow: 0 2px 8px rgba(255, 111, 97, 0.4);
-}
-.lang-toggle .lang-seg.is-active:hover { color: #fff; }
+.lang-toggle .lang-seg:hover { color: #fff; }
+.lang-toggle .lang-seg.is-active { color: #fff; }
 
 /* EN translations for CSS-generated text */
 body.lang-en #container .col h1::before { content: "PREMIUM PILATES EQUIPMENT"; }
