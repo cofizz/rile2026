@@ -294,8 +294,22 @@ body {
 .product-card1 .ph-hover { position: absolute; left: 0; top: 0; opacity: 0; transition: opacity .5s ease; }
 .product-card1:hover .ph-hover { opacity: 1; }
 
-/* clickable colour swatches on the product cards */
-.product-card1 .card-swatches { display:flex; gap:9px; justify-content:center; margin:12px 0 0; }
-.card-swatch { width:22px; height:22px; padding:0; border-radius:50%; cursor:pointer; background:var(--sw); border:2px solid #e2e2e4; box-shadow:0 1px 4px rgba(0,0,0,0.15); transition:transform .15s ease, border-color .2s ease, box-shadow .2s ease; }
-.card-swatch:hover { transform:scale(1.18); }
-.card-swatch.is-active { border-color:var(--accent); box-shadow:0 0 0 2px rgba(255,111,97,0.25); }
+/* clickable colour swatches on the product cards
+   (high specificity + !important to beat .product-card1 button styles) */
+.product-card1 .card-swatches { display:flex; gap:10px; justify-content:center; margin:14px 0 0; }
+.product-card1 .card-swatch {
+  width: 24px !important;
+  height: 24px !important;
+  min-width: 0 !important;
+  padding: 0 !important;
+  border-radius: 50% !important;
+  cursor: pointer;
+  background: var(--sw) !important;
+  border: 2px solid #e2e2e4 !important;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.15) !important;
+  display: inline-block !important;
+  transition: transform .15s ease, border-color .2s ease, box-shadow .2s ease;
+}
+.product-card1 .card-swatch::after { content: none !important; display: none !important; }
+.product-card1 .card-swatch:hover { transform: scale(1.18) !important; background: var(--sw) !important; box-shadow: 0 2px 8px rgba(0,0,0,0.2) !important; }
+.product-card1 .card-swatch.is-active { border-color: var(--accent) !important; box-shadow: 0 0 0 2px rgba(255,111,97,0.3) !important; }
