@@ -149,24 +149,40 @@
   function makeToggle() {
     var nav = document.querySelector(".navbar");
     if (!nav) return;
-    var btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = "lang-toggle";
-    function label() {
-      btn.textContent = current === "en" ? "SR" : "EN";
-      btn.setAttribute("aria-label", current === "en" ? "Prebaci na srpski" : "Switch to English");
-    }
-    btn.addEventListener("click", function () {
-      current = current === "en" ? "sr" : "en";
-      try { localStorage.setItem("lang", current); } catch (e) {}
-      apply(current);
-      label();
+
+    var wrap = document.createElement("div");
+    wrap.className = "lang-toggle";
+    wrap.setAttribute("role", "group");
+    wrap.setAttribute("aria-label", "Jezik / Language");
+
+    var segs = {};
+    ["sr", "en"].forEach(function (lang) {
+      var seg = document.createElement("button");
+      seg.type = "button";
+      seg.className = "lang-seg";
+      seg.textContent = lang.toUpperCase();
+      seg.setAttribute("data-lang", lang);
+      seg.addEventListener("click", function () {
+        if (current === lang) return;
+        current = lang;
+        try { localStorage.setItem("lang", current); } catch (e) {}
+        apply(current);
+        sync();
+      });
+      segs[lang] = seg;
+      wrap.appendChild(seg);
     });
+
+    function sync() {
+      segs.sr.classList.toggle("is-active", current === "sr");
+      segs.en.classList.toggle("is-active", current === "en");
+    }
+    sync();
+
     // place it just before the mail CTA so on desktop it groups on the
     // right next to the nav + envelope (CSS handles mobile ordering)
     var mail = nav.querySelector(".mail-a");
-    if (mail) nav.insertBefore(btn, mail); else nav.appendChild(btn);
-    label();
+    if (mail) nav.insertBefore(wrap, mail); else nav.appendChild(wrap);
   }
 
   function init() {
