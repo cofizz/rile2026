@@ -115,11 +115,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 18px 4px 0;
+  margin: auto 4px 0;   /* auto top pushes the title+button group to the
+                           card bottom so names sit just above the button
+                           on every card, with or without a swatch row */
 }
 .hx-btn {
-  margin-top: auto !important;   /* pin to card bottom so all cards align
-                                    whether or not they have a swatch row */
+  margin-top: 16px !important;
   width: 100% !important;
   height: 50px !important;
   border: none !important;
